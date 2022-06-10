@@ -1,14 +1,11 @@
-function randomIntFromInterval(min, max) { // min and max included
-    return (Math.random() * (max - min + 1) + min)
-}
-
-const perlin = require('perlin-noise');
-
 import * as THREE from 'three';
 
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+import { PLYLoader } from 'three/examples/jsm/loaders/PLYLoader'
+
 
 //https://www.youtube.com/watch?v=Q7AOvWpIVHU
 
@@ -46,6 +43,7 @@ const light = new THREE.AmbientLight( 0x404040 ); // soft white light
 scene.add( light );
 
 const gltfLoader = new GLTFLoader();
+const plyLoader = new PLYLoader();
 
 
 renderer.setPixelRatio( window.devicePixelRatio );
@@ -67,15 +65,11 @@ function onWindowResize(){
 
 let mainObj;
 gltfLoader.load(
-    // resource URL
-    'models/rocket/scene.gltf',
-    // called when the resource is loaded
+    'models/spacesuit/scene.gltf',
     function ( gltf ) {
 
         scene.add( gltf.scene );
         mainObj = gltf.scene;
-
-
 
         gltf.animations; // Array<THREE.AnimationClip>
         gltf.scene; // THREE.Group
@@ -84,20 +78,13 @@ gltfLoader.load(
         gltf.asset; // Object
 
     },
-    // called while loading is progressing
     function ( xhr ) {
-
         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-
     },
-    // called when loading has errors
     function ( error ) {
-
         console.log( 'An error happened', error );
-
     }
 );
-
 
 
 function animate() {
@@ -108,7 +95,7 @@ function animate() {
     //camera.position.z += 0.1;
     renderer.render(scene, camera);
     //spotLight.position.x += 0.1;
-    mainObj.position.x = perlin.generatePerlinNoise(480, 480)[0]/2;
+    //mainObj.position.x = perlin.generatePerlinNoise(480, 480)[0]/2;
 
 }
 
