@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+@font-face {
+  font-family: 'Incompleeta';
+  src: local('Incompleeta Light'), local('Incompleeta-Light'),
+  url('../fonts/incompleeta/IncompleetaLight.woff2') format('woff2'),
+  url('../fonts/incompleeta/IncompleetaLight.woff') format('woff'),
+  url('../fonts/incompleeta/IncompleetaLight.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IncompleetaReveal';
+  src: local('Incompleeta Light Reveal'), local('Incompleeta-Light-Reveal'),
+  url('../fonts/incompleeta-reveal/IncompleetaLightReveal.woff2') format('woff2'),
+  url('../fonts/incompleeta-reveal/IncompleetaLightReveal.woff') format('woff'),
+  url('../fonts/incompleeta-reveal/IncompleetaLightReveal.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+html {
+  font-family: 'Montserrat', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+h1, h2, h3 {
+  font-family: IncompleetaReveal, serif;
+}
+
+h1 {
+  font-size: 45px;
+}
+
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+  width: 100%;
+  color: white;
+  text-align: center;
+  height: 35vh;
+
+  transition:0.5s linear height;
+
+  &.grow-full {
+    height: 100vh;
+  }
+
+  &.ng-hide-remove {
+    -webkit-animation: fadeIn 500ms;
+    animation: fadeIn 500ms;
+  }
+
+  &.ng-hide-add {
+    -webkit-animation: fadeOut 500ms;
+    animation: fadeOut 500ms;
+  }
+}
+
+.steps {
+  background-color: #121823;
+  padding: 25px 0;
+  font-size: 17px;
+  border-top: 3px solid #243044;
+
+  span {
+    margin-right: 20px;
+  }
+
+}
+
+.step {
+
+  background-color: #1B2434;
+  padding: 15px 40px;
+  height: 100%;
+
+  h1 {
+    font-size: 25px;
+    margin: 0 0 25px 0;
+  }
+
+}
+
+.black-white {
+  filter: brightness(0) invert(1);
+}
+
+.broken-font {
+  font-family: Incompleeta, serif;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.welcome {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  color: white;
+
+  p {
+    font-size: 20px;
+    margin: 10px 0 25px 0;
+  }
+
+}
+
+.text-selected {
+  font-weight: bold;
+  border-bottom: 3px solid #5e5df0;
+}
+
+.flight-info {
+
+  border-radius: 8px;
+  padding: 15px 10px;
+  background-color: #243044;
+
+  span {
+    padding: 10px 0;
+    font-family: Montserrat, serif !important;
+    display: block;
+    font-size: 15px;
+  }
+
+}
+
+.text-left {
+  text-align: left;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+
+.text-minimal {
+  font-size: 12px;
+  font-family: Montserrat, serif;
+  color: #868686;
+}
+
+#big-loader {
+
+  font-family: 'Montserrat', serif;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1a1a1a;
+  z-index: 1;
+
+  &.ng-hide {
+    transition:0.5s linear all;
+    opacity:0;
+  }
+
+  #loader-text {
+    font-size: 10px;
+  }
+
+  .anim-text-flow,
+  .anim-text-flow-hover:hover {
+    /*
+     * Animation variables
+     */
+    $animationSteps: 20;
+    $animationDuration: 50;
+    $animationElement: span;
+    $animationElementsCount: 100;
+    $delayBetweenLetters: 0.2;
+
+    /*
+     * Elements settings
+     */
+    #{$animationElement} {
+      animation-name: anim-text-flow-keys;
+      animation-duration: #{$animationDuration}s;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-fill-mode: forwards;
+    }
+
+    /*
+     * Keyframe loop
+     */
+    @keyframes anim-text-flow-keys {
+      @for $i from 0 through $animationSteps {
+        #{percentage($i * (1 / $animationSteps))} {
+          color: hsla(random(365), 60%, 60%, 1);
+        }
+      }
+    }
+
+    /*
+     * Element animation delay loop
+     */
+    $totalDelayTime: $animationElementsCount * $delayBetweenLetters;
+
+    @for $i from 1 through $animationElementsCount {
+      #{$animationElement}:nth-of-type(#{$i}) {
+        animation-delay: #{($i * $delayBetweenLetters) - $totalDelayTime}s;
+      }
+    }
+  }
+
+  .small {
+    font-size: 20px;
+  }
+
+  .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+
+    color: #fefefe;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 1.8em;
+    line-height: 2;
+    font-weight: 300;
+    text-rendering: optimizeLegibility;
+    text-align: center;
+
+  }
+
+  .txt {
+    display: block;
+  }
+
+  a {
+    text-decoration: none;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    text-align: right;
+    color: #eee;
+    font-size: 15px;
+    line-height: 15px;
+  }
+
+}
+
+.button {
+  border-radius: 999px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Incompleeta, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+}
+
+.button-cta {
+  background: #5E5DF0;
+  box-shadow: #5E5DF0 0 10px 20px -10px;
+  color: #FFFFFF;
+}
+
+.button-cta-light {
+  background: transparent;
+  color: #FFFFFF;
+}

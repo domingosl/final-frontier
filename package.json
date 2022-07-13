@@ -2,15 +2,15 @@
   "name": "threejs-practice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./models ./dist && cp -R ./img ./dist  && parcel ./index.html ./index3.html"
+    "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && cp -R ./img ./dist  && parcel ./client_src/index.html",
+    "build": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && cp -R ./img ./dist  && parcel build ./client_src/index.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dat.gui": "^0.7.9",
+    "gsap": "^3.10.4",
     "three": "^0.141.0"
   },
   "staticFiles": {

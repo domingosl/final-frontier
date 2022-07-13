@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+          integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+          integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="scss/styles.scss">
+</head>
+<body ng-controller="main" ng-cloak>
+
+<div id="big-loader" ng-show="formData.isLoading3D">
+    <div class="container">
+        <span id="quote-text" class="txt anim-text-flow">...</span>
+        <span id="quote-author" class="txt small">...</span>
+        <br />
+        <br />
+        <span id="loader-text">site loading... please wait</span>
+    </div>
+</div>
+
+<canvas id="bg"></canvas>
+
+<div ng-if="formData.state === 'welcome'" class="welcome">
+    <h1>FINAL FRONTIER</h1>
+    <p>The spaceflight season of 2025 is open</p>
+    <button class="button button-cta" role="button" ng-click="changeState('flight')">BOOK A TICKET</button>
+</div>
+
+<div ng-show="formData.state !== 'welcome' && !formData.animating" class="nav" ng-class="{'grow-full': formData.state === 'seats'}">
+
+    <div class="steps">
+        <span ng-class="{'text-selected': formData.state == 'flight'}" ng-click="formData.state = 'flight'">1. Flights</span>
+         <span ng-class="{'text-selected': formData.state == 'seats'}">2. Seat</span>
+         <span ng-class="{'text-selected': formData.state == 'payment'}">3. Payment</span>
+    </div>
+
+    <div ng-show="formData.state === 'flight'" class="step">
+
+        <h1>{{formData.flights[formData.selectedFlight].lunchSite.name}}</h1>
+        <!--<p>{{formData.flights[formData.selectedFlight].description}}</p>-->
+
+        <div class="pure-g text-minimal">
+            <div class="pure-u-1-5">Managed by</div>
+            <div class="pure-u-1-5">Departure</div>
+            <div class="pure-u-1-5">Flight duration</div>
+            <div class="pure-u-1-5">Flight type</div>
+            <div class="pure-u-1-5">Price</div>
+        </div>
+
+        <div class="mt-10"></div>
+
+        <div class="flight-info">
+
+            <div class="pure-g">
+                <div class="pure-u-md-1-5"><img width="100%" class="black-white" ng-src="{{'img/' + formData.flights[formData.selectedFlight].companyLogo}}"></div>
+                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].departure}}</span></div>
+                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].duration}}</span></div>
+                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].type}}</span></div>
+                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].cost}}</span></div>
+            </div>
+
+        </div>
+
+        <div class="mt-10"></div>
+
+        <button class="button button-cta" role="button" ng-click="changeState('seats')">Book this flight</button>
+        <button class="button button-cta-light" role="button" ng-click="nextFlight()">Next flight</button>
+
+    </div>
+
+    <div ng-show="formData.state === 'seats'" class="step">
+        steps...
+    </div>
+
+</div>
+
+<script type="module" src="js/app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.2/angular-animate.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/grids-responsive-min.css" />
+
+</body>
+</html>
