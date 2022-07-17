@@ -4,6 +4,11 @@ import gsap from 'gsap';
 import { rippleProto, cityWaveAnimate } from "./riple";
 import * as rocket from './rocket';
 import * as iss from './iss';
+import Stats from 'stats.js'
+
+const stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 module.exports.init = async (onLoaded) => {
 
@@ -351,29 +356,40 @@ module.exports.init = async (onLoaded) => {
     earth.castShadow = true;
     earth.getObjectByName('surface').geometry.center();
 
-// On window resize, adjust camera aspect ratio and renderer size
-    window.addEventListener('resize', function () {
+    const resize = () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-    });
+    };
+
+// On window resize, adjust camera aspect ratio and renderer size
+    window.addEventListener('resize', resize);
 
     camera.position.y = 0;
     camera.position.x = 2 * Math.sin(cameraRotation);
     camera.position.z = 2 * Math.cos(cameraRotation);
     camera.aspect = window.innerWidth / window.innerHeight;
+
+    console.log(camera.position, earth.position, camera.aspect, window.innerWidth, window.innerHeight);
+
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.lookAt(earth.position);
 
 
     let curvePoint = 0;
+    const surface = earth.getObjectByName('surface');
+    const atmosphere = earth.getObjectByName('atmosphere');
+
+
     let render = function () {
 
-        if(!stopEarthRotation)
-            earth.getObjectByName('surface').rotation.y += 1 / 32 * 0.01;
+        stats.begin();
 
-        earth.getObjectByName('atmosphere').rotation.y += 1 / 16 * 0.005;
+        if(!stopEarthRotation)
+            surface.rotation.y += 1 / 32 * 0.01;
+
+        atmosphere.rotation.y += 1 / 16 * 0.005;
 
         galaxy.rotation.y -= 0.0001;
 
@@ -384,17 +400,15 @@ module.exports.init = async (onLoaded) => {
             currentCurve.geometry.setDrawRange(0, curvePoint++);
 
 
-        //if (cameraAutoRotation) {
-        //cameraRotation += cameraRotationSpeed;
-        //}
-
         activeMarker && cityWaveAnimate(activeMarker);
 
-
+        stats.end();
         requestAnimationFrame(render);
         renderer.render(scene, camera);
     };
 
+    //Fixes mobile issue where camera is not centered
+    setTimeout(resize, 0);
     render();
 
     return { placeMarker, cameraAnimating };

@@ -1,3 +1,5 @@
+@import "loader";
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
 @font-face {
@@ -53,16 +55,16 @@ canvas {
   position: absolute;
   bottom: 0;
   left: 0;
-  background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
   width: 100%;
   color: white;
   text-align: center;
-  height: 35vh;
+  height: 40vh;
 
-  transition:0.5s linear height;
+  transition: 0.1s linear height;
 
   &.grow-full {
-    height: 100vh;
+    height: 100vh !important;
   }
 
   &.ng-hide-remove {
@@ -90,13 +92,90 @@ canvas {
 
 .step {
 
+  position: relative;
   background-color: #1B2434;
   padding: 15px 40px;
-  height: 100%;
+  height: calc(100% - 77px);
+
+  &.done {
+    background-color: rgba(0,0,0,0.5);
+    height: 100vh;
+  }
 
   h1 {
     font-size: 25px;
     margin: 0 0 25px 0;
+  }
+
+  .navigation {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+  }
+
+  .container {
+    width: 80vw;
+    margin: 0 auto;
+  }
+
+  form {
+
+    text-align: left;
+    font-family: Montserrat, serif;
+    border-radius: 10px;
+    padding: 20px 30px;
+    background-color: #243044;
+
+    input, label, select {
+      display: block;
+    }
+
+    label {
+      font-size: 12px;
+      color: #868686;
+    }
+
+    input, select {
+      background-color: transparent;
+      border: none;
+      border-bottom: 2px solid #333A49;
+      color: white;
+      width: 100%;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    select {
+      -webkit-appearance: menulist-button;
+      color: white;
+      outline:0;
+    }
+
+    select option {
+      background: rgb(0, 0, 0);
+      color: #fff;
+      border: none;
+    }
+
+    input:focus, select:focus {
+      outline-width: 0;
+    }
+  }
+
+  .total {
+    font-family: 'IncompleetaReveal', serif;
+    font-size: 45px;
+
+    small {
+      font-size: 20px;
+    }
+
+  }
+
+  p {
+    font-family: Montserrat, serif;
+    font-size: 14px;
   }
 
 }
@@ -133,6 +212,11 @@ canvas {
 
 }
 
+.company-logo {
+  width: 100%;
+  max-width: 150px;
+}
+
 .text-selected {
   font-weight: bold;
   border-bottom: 3px solid #5e5df0;
@@ -161,6 +245,17 @@ canvas {
   margin-top: 10px;
 }
 
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
 
 .text-minimal {
   font-size: 12px;
@@ -180,8 +275,8 @@ canvas {
   z-index: 1;
 
   &.ng-hide {
-    transition:0.5s linear all;
-    opacity:0;
+    transition: 0.5s linear all;
+    opacity: 0;
   }
 
   #loader-text {
@@ -300,4 +395,38 @@ canvas {
 .button-cta-light {
   background: transparent;
   color: #FFFFFF;
+}
+
+
+.swal2-html-container {
+  font-size: 20px !important;
+  font-family: Montserrat, serif !important;
+}
+
+.swal2-popup {
+  width: 80vw !important;
+}
+
+.swal2-html-container {
+  text-align: left !important;
+}
+
+@media only screen and (max-width: 768px) {
+  .nav {
+    height: 100vh;
+  }
+
+  .step {
+
+    padding: 15px 0;
+
+    .container {
+      width: 100vw;
+    }
+  }
+
+  .swal2-popup {
+    width: 100vw !important;
+  }
+
 }

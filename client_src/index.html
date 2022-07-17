@@ -16,7 +16,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
           integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+
     <link rel="stylesheet" href="scss/styles.scss">
+
 </head>
 <body ng-controller="main" ng-cloak>
 
@@ -24,9 +28,9 @@
     <div class="container">
         <span id="quote-text" class="txt anim-text-flow">...</span>
         <span id="quote-author" class="txt small">...</span>
-        <br />
-        <br />
-        <span id="loader-text">site loading... please wait</span>
+        <br/>
+        <br/>
+        <span id="loader-text">site loading... <br/>please wait</span>
     </div>
 </div>
 
@@ -38,50 +42,215 @@
     <button class="button button-cta" role="button" ng-click="changeState('flight')">BOOK A TICKET</button>
 </div>
 
-<div ng-show="formData.state !== 'welcome' && !formData.animating" class="nav" ng-class="{'grow-full': formData.state === 'seats'}">
+<div ng-show="formData.state !== 'welcome' && !formData.animating" class="nav"
+     ng-class="{'grow-full': formData.state !== 'flight'}">
 
-    <div class="steps">
-        <span ng-class="{'text-selected': formData.state == 'flight'}" ng-click="formData.state = 'flight'">1. Flights</span>
-         <span ng-class="{'text-selected': formData.state == 'seats'}">2. Seat</span>
-         <span ng-class="{'text-selected': formData.state == 'payment'}">3. Payment</span>
+    <div class="steps" ng-if="formData.state !== 'done'">
+        <span ng-class="{'text-selected': formData.state == 'flight'}"
+              ng-click="formData.state = 'flight'">1. Flights</span>
+        <span ng-class="{'text-selected': formData.state == 'details'}">2. Details</span>
+        <span ng-class="{'text-selected': formData.state == 'traveler'}">3. Traveler</span>
+        <span ng-class="{'text-selected': formData.state == 'payment'}">4. Payment</span>
     </div>
 
     <div ng-show="formData.state === 'flight'" class="step">
 
-        <h1>{{formData.flights[formData.selectedFlight].lunchSite.name}}</h1>
-        <!--<p>{{formData.flights[formData.selectedFlight].description}}</p>-->
+        <h1>{{formData.flights[formData.selectedFlightIndex].lunchSite.name}}</h1>
+        <!--<p>{{formData.flights[formData.selectedFlightIndex].description}}</p>-->
 
-        <div class="pure-g text-minimal">
-            <div class="pure-u-1-5">Managed by</div>
-            <div class="pure-u-1-5">Departure</div>
-            <div class="pure-u-1-5">Flight duration</div>
-            <div class="pure-u-1-5">Flight type</div>
-            <div class="pure-u-1-5">Price</div>
-        </div>
-
-        <div class="mt-10"></div>
-
-        <div class="flight-info">
-
-            <div class="pure-g">
-                <div class="pure-u-md-1-5"><img width="100%" class="black-white" ng-src="{{'img/' + formData.flights[formData.selectedFlight].companyLogo}}"></div>
-                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].departure}}</span></div>
-                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].duration}}</span></div>
-                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].type}}</span></div>
-                <div class="pure-u-md-1-5"><span>{{formData.flights[formData.selectedFlight].cost}}</span></div>
+        <div class="row flight-info">
+            <div class="col-sm-2">
+                <p class="text-minimal">Managed by</p>
+                <img class="company-logo black-white"
+                     ng-src="{{'img/' + formData.flights[formData.selectedFlightIndex].companyLogo}}">
             </div>
-
+            <div class="col-sm-3">
+                <p class="text-minimal">Departure</p>
+                <span>{{formData.flights[formData.selectedFlightIndex].departure}}</span>
+            </div>
+            <div class="col-sm-3">
+                <p class="text-minimal">Flight duration</p>
+                <span>{{formData.flights[formData.selectedFlightIndex].duration}}</span>
+            </div>
+            <div class="col-sm-2">
+                <p class="text-minimal">Flight type</p>
+                <span>{{formData.flights[formData.selectedFlightIndex].type}}</span>
+            </div>
+            <div class="col-sm-2">
+                <p class="text-minimal">Price</p>
+                <span>{{formData.flights[formData.selectedFlightIndex].cost}}</span>
+            </div>
         </div>
 
         <div class="mt-10"></div>
 
-        <button class="button button-cta" role="button" ng-click="changeState('seats')">Book this flight</button>
-        <button class="button button-cta-light" role="button" ng-click="nextFlight()">Next flight</button>
+        <div class="navigation">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button class="button button-cta-light" role="button" ng-click="nextFlight()">Next flight</button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="button button-cta" role="button" ng-click="changeState('details')">Select flight
+                    </button>
+                </div>
+            </div>
+        </div>
 
     </div>
 
-    <div ng-show="formData.state === 'seats'" class="step">
+    <div ng-show="formData.state === 'details'" class="step">
         steps...
+        <div class="navigation">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button class="button button-cta-light" role="button" ng-click="changeState('flight')">Back</button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="button button-cta" role="button" ng-click="changeState('traveler')">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="formData.state === 'traveler'" class="step">
+
+        <div class="container">
+
+            <form>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label ng-dblclick="debugFiller()">First name
+                            <input type="text" ng-model="formData.traveler.firstName"/>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Last name
+                            <input type="text" ng-model="formData.traveler.lastName"/>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Gender
+                            <select ng-model="formData.traveler.gender">
+                                <option value="f">Female</option>
+                                <option value="m">Male</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Date of birth
+                            <input type="date" ng-model="formData.traveler.birthDay"/>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Document type
+                            <select ng-model="formData.traveler.documentType">
+                                <option value="driver licence">Driver's license</option>
+                                <option value="passport">Passport</option>
+                                <option value="id document">Id document</option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Document number
+                            <input type="text" ng-model="formData.traveler.documentNumber"/>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Phone
+                            <input type="tel" ng-model="formData.traveler.phone"/>
+                        </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Email
+                            <input type="email" ng-model="formData.traveler.email"/>
+                        </label>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="navigation">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button class="button button-cta-light" role="button" ng-click="changeState('details')">Back
+                    </button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="button button-cta" role="button" ng-click="validateTravelerData()">Book flight
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="formData.state === 'payment'" class="step">
+
+        <div class="container">
+            <span class="total"><strong>{{0.1*formData.flights[formData.selectedFlightIndex].cost | currency}}</strong> <small>USD</small></span>
+            <div class="mt-30"></div>
+            <p>In order to reserve your seat a 10% down payment is due at this very moment. You'll receive an email <strong>25 days</strong>
+            before liftoff in order to complete the rest of the payment (<strong>{{0.9*formData.flights[formData.selectedFlightIndex].cost | currency}} USD</strong>). You can cancel at any time and receive your down payment
+                back (conditions apply, please read our <a href="#">refund policy</a>)
+            </p>
+
+            <div class="mt-30"></div>
+
+            <form>
+                <div class="mt-10"></div>
+
+                <div class="text-center">
+                    <p>Pay in your local currency with a fee free wire transfer</p>
+                    <img height="40" src="../img/powered-by-rapyd.png">
+                </div>
+
+                <div class="mt-30"></div>
+
+                <label>Paying from
+                    <select ng-model="formData.traveler.country" ng-change="countryChanged()">
+                        <option
+                                ng-repeat="el in formData.countryCurrencyCouple"
+                                value="{{el.countryCode}}">
+                            {{el.countryName}}
+                        </option>
+                    </select>
+                </label>
+                <label>In currency
+                    <select ng-model="formData.traveler.currency">
+                        <option ng-repeat="el in formData.currencies">{{el}}</option>
+                    </select>
+                </label>
+
+            </form>
+
+
+        </div>
+
+        <div class="navigation">
+            <div class="row">
+                <div class="col-xs-6">
+                    <button class="button button-cta-light" role="button" ng-click="changeState('traveler')">Back
+                    </button>
+                </div>
+                <div class="col-xs-6">
+                    <button class="button button-cta" role="button" ng-click="generateVirtualAccount()">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="formData.state === 'done'" class="step done">
+
     </div>
 
 </div>
@@ -92,8 +261,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-animate/1.8.2/angular-animate.min.js"></script>
 
-<link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css" integrity="sha384-yHIFVG6ClnONEA5yB5DJXfW2/KC173DIQrYoZMEtBvGzmf0PKiGyNEqe9N6BNDBH" crossorigin="anonymous">
-<link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/grids-responsive-min.css" />
 
 </body>
 </html>
