@@ -16,13 +16,13 @@ const clickSound = new Audio('/assets/sounds/beep.mp3');
 
 angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', function ($scope, $timeout) {
 
-    const stop3D = false;
+    const stop3D = true;
 
     const minLoaderTime = 0;
 
     $scope.formData = {
         isLoading3D: !stop3D,
-        state: 'welcome',
+        state: 'details',
         animating: !stop3D,
         flights: [],
         currencies: ['USD'],
