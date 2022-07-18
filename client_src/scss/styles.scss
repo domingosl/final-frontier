@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "loader";
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
@@ -310,7 +312,7 @@ canvas {
      */
     @keyframes anim-text-flow-keys {
       @for $i from 0 through $animationSteps {
-        #{percentage($i * (1 / $animationSteps))} {
+        #{percentage($i * math.div(1, $animationSteps))} {
           color: hsla(random(365), 60%, 60%, 1);
         }
       }
