@@ -78,7 +78,7 @@
             </div>
             <div class="col-sm-2">
                 <p class="text-minimal">Price</p>
-                <span>{{formData.flights[formData.selectedFlightIndex].cost}}</span>
+                <span>{{formData.flights[formData.selectedFlightIndex].cost | currency}}</span>
             </div>
         </div>
 
@@ -99,7 +99,17 @@
     </div>
 
     <div ng-show="formData.state === 'details'" class="step">
-        steps...
+
+        <div class="mt-20"></div>
+        <div class="container scrolls">
+            <p>
+                <strong>{{formData.flights[formData.selectedFlightIndex].lunchSite.name}}</strong><br />
+                <strong>{{formData.flights[formData.selectedFlightIndex].departure}}</strong> ({{getDaysFromDate(formData.flights[formData.selectedFlightIndex].departure)}})</p>
+            <br />
+            <div class="mt-20"></div>
+            <p class="text-justify" ng-bind-html="formData.flights[formData.selectedFlightIndex].description"></p>
+        </div>
+
         <div class="navigation">
             <div class="row">
                 <div class="col-xs-6">

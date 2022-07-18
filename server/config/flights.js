@@ -5,9 +5,20 @@ module.exports = [
             name: 'Kennedy Space Center',
             position: { latitude: 28.6082, longitude: -80.604 }
         },
-        description: "Foo bar",
+        description: "<h1><strong>TO THE SPACE STATION</strong></h1>" +
+            "<p>From launch to docking, the spacecraft typically takes 11 hours to travel from Earth to the " +
+            "International Space Station. On its flight to the International Space Station, Dragon executes " +
+            "a series of burns that position the vehicle progressively closer to the station before it " +
+            "performs final docking maneuvers, followed by pressurization of the vestibule, hatch opening, " +
+            "and crew ingress..</p><div class=\"mt-20\"></div>" +
+            "<h1><strong>BACK TO EARTH</strong></h1>" +
+            "<p>After 15 days on the station the mission to return to earth starts. Once " +
+            "the spacecraft has enough distance from the ISS, it fires it's rocket engines to slow down for " +
+            "re-entry into the atmosphere. After that, the spacecraft will deploy small parachutes to slow the " +
+            "spacecraft enough for the main parachutes to open. Landing will take place at sea and recovery usually " +
+            "takes at most half an hour to get everyone out onto a boat and back to land.</p>",
         departure: "05/08/2025 09:00 GMT",
-        duration: "1.5 Hours",
+        duration: "11 Hours",
         type: "ISS Visit",
         cost: 250000,
         currencyDisplay: "$",

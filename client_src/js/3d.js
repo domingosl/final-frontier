@@ -6,9 +6,9 @@ import * as rocket from './rocket';
 import * as iss from './iss';
 import Stats from 'stats.js'
 
-const stats = new Stats();
+/*const stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+document.body.appendChild( stats.dom );*/
 
 module.exports.init = async (onLoaded) => {
 
@@ -392,7 +392,7 @@ module.exports.init = async (onLoaded) => {
         if(!renderAllow)
             return requestAnimationFrame(render);
 
-        stats.begin();
+        //stats.begin();
 
         if(!stopEarthRotation)
             surface.rotation.y += 1 / 32 * 0.01;
@@ -410,7 +410,7 @@ module.exports.init = async (onLoaded) => {
 
         activeMarker && cityWaveAnimate(activeMarker);
 
-        stats.end();
+        //stats.end();
         requestAnimationFrame(render);
         renderer.render(scene, camera);
     };

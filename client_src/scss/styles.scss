@@ -81,7 +81,9 @@ canvas {
 }
 
 .steps {
+
   background-color: #121823;
+
   padding: 25px 0;
   font-size: 17px;
   border-top: 3px solid #243044;
@@ -96,6 +98,8 @@ canvas {
 
   position: relative;
   background-color: #1B2434;
+  background-image: url('../../img/step-background.png');
+  background-size: cover;
   padding: 15px 40px;
   height: calc(100% - 77px);
 
@@ -255,8 +259,20 @@ canvas {
   margin-top: 30px;
 }
 
+img.responsive {
+  width: 100%;
+}
+
+.scrolls {
+  overflow-y: auto;
+}
+
 .text-center {
   text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .text-minimal {
