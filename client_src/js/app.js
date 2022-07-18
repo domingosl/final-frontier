@@ -16,12 +16,14 @@ const clickSound = new Audio('/assets/sounds/beep.mp3');
 
 angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', function ($scope, $timeout) {
 
+    const stop3D = false;
+
     const minLoaderTime = 0;
 
     $scope.formData = {
-        isLoading3D: false,
-        state: 'payment',
-        animating: false,
+        isLoading3D: !stop3D,
+        state: 'welcome',
+        animating: !stop3D,
         flights: [],
         currencies: ['USD'],
         selectedFlightIndex: 0,
@@ -39,7 +41,7 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', f
         .then(r => $timeout($scope.formData.countryCurrencyCouple = r.data.data, 0));
 
     let placeMarker;
-    let cameraAnimating;
+    let setRendering;
 
     let assetsLoaded = 0;
 
@@ -55,9 +57,12 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', f
     }
 
     let now = new Date().getTime();
-    /*    el3d.init(onLoaded).then(r => {
+
+    if(!stop3D)
+        el3d.init(onLoaded).then(r => {
             placeMarker = r.placeMarker;
-        });*/
+            setRendering = r.setRendering;
+        });
 
 
     const updateMarker = () => {
@@ -92,13 +97,22 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', f
         });
     }
 
+    let firstPass = true;
     $scope.changeState = state => {
 
         clickSound.play();
 
         $scope.formData.state = state;
 
-        if (state === 'flight') updateMarker();
+        if (firstPass && state === 'flight') {
+            updateMarker();
+            firstPass = false;
+        }
+        else if(state === 'flight')
+            setRendering(true);
+        else {
+            setRendering(false);
+        }
 
     }
 

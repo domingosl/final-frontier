@@ -336,6 +336,11 @@ module.exports.init = async (onLoaded) => {
     window.drawCurve = drawCurve;
 
 
+    let renderAllow = true;
+    const setRendering = state => {
+        renderAllow = state;
+        console.log("Rendering allowed: ", renderAllow);
+    };
 
 // Scene, Camera, Renderer Configuration
 //renderer.setSize(window.innerWidth, window.innerHeight);
@@ -384,6 +389,9 @@ module.exports.init = async (onLoaded) => {
 
     let render = function () {
 
+        if(!renderAllow)
+            return requestAnimationFrame(render);
+
         stats.begin();
 
         if(!stopEarthRotation)
@@ -411,5 +419,5 @@ module.exports.init = async (onLoaded) => {
     setTimeout(resize, 0);
     render();
 
-    return { placeMarker, cameraAnimating };
+    return { placeMarker, cameraAnimating, setRendering };
 }
