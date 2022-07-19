@@ -4,3 +4,5 @@ dist
 .parcel-cache
 application-state.json
 .env
+.idea
+logs
