@@ -15,6 +15,13 @@ const el3d = require('./3d');
 
 const clickSound = new Audio('/assets/sounds/beep.mp3');
 
+
+function capitalizeWords(text) {
+    return text.split().map(element => {
+        return element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
+    });
+}
+
 angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '$sce', function ($scope, $timeout, $sce) {
 
     const loadFlights = async () => {
@@ -61,7 +68,6 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '
 
         const onLoaded = () => {
             assetsLoaded++;
-
             if (assetsLoaded >= 6) {
 
                 let delta = minLoaderTime - (new Date().getTime() - now);
@@ -97,16 +103,21 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '
             loader.hide();
             $timeout(() => $scope.changeState('done'), 0);
 
-            let formatHtml = "<p>Great!, in order to complete your booking " +
-                "please send a bank wire of " + 0.1 * $scope.formData.flights[$scope.formData.selectedFlightIndex].cost + " (equivalent in your local currency) using the" +
-                " bank information stated bellow:</p><br \><br \><ul>";
+
+
+            let formatHtml = "<p>In order to complete your booking " +
+                "please send a bank wire of " +
+                new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format($scope.formData.flights[$scope.formData.selectedFlightIndex].cost * 0.1) +
+                " (equivalent in your local currency) using the" +
+                " bank information stated bellow:</p><br \><br \><div class='bankwire_data'>";
 
             Object.keys(response.data.data).forEach(key => {
-                formatHtml += '<li><strong>' + key.replace("_", " ") + '</strong>: ' + response.data.data[key] + '</li>'
+                if(key.toLowerCase() === 'country_iso' || key.toLowerCase() === 'country') return;
+                formatHtml += '<div class="row"><div class="col-xs-4 text-right"><strong>' + capitalizeWords(key.replace(/\_/g, " ")) + '</strong></div><div class="col-xs-6">' + response.data.data[key] + '</div></div>'
             });
-            formatHtml += "</ul>";
+            formatHtml += "</div><div class='text-center mt-30'><p>Thank you for choosing Final Frontier!</p></div>";
 
-            Modals.Alert('success', formatHtml, 'All ready to go!', {
+            Modals.Alert('success', formatHtml, 'Almost ready for liftoff!', {
                 allowOutsideClick: false,
                 showConfirmButton: false
             });
@@ -125,6 +136,8 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '
             }
             else if(state === 'flight')
                 setRendering(true);
+            else if(state === 'done')
+                setRendering(true, true);
             else {
                 setRendering(false);
             }
@@ -180,6 +193,8 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '
             $scope.formData.selectedFlightIndex = 0;
             updateMarker();
         };
+
+
     })();
 
 

@@ -2,6 +2,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 
 const loader = new GLTFLoader();
+let rocket;
 
 module.exports.load = (onLoaded) => new Promise((resolve, reject) => {
 
@@ -9,6 +10,7 @@ module.exports.load = (onLoaded) => new Promise((resolve, reject) => {
         'assets/rocket/scene.gltf',
         function (gltf) {
             onLoaded("rocket");
+            rocket = gltf.scene;
             resolve(gltf);
         },
         (xhr) => {
@@ -22,4 +24,10 @@ module.exports.load = (onLoaded) => new Promise((resolve, reject) => {
 
 });
 
+module.exports.animate = () => {
 
+    if(!rocket) return;
+
+    rocket.position.x += 0.00025 * Math.sin(Date.now() * 0.03);
+    rocket.position.y += 0.005;
+}

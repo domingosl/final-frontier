@@ -239,8 +239,17 @@ canvas {
     font-family: Montserrat, serif !important;
     display: block;
     font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
+}
+
+.bankwire_data {
+  border: 3px dashed #040507;
+  padding: 10px 20px;
+  border-radius: 10px;
 }
 
 .text-left {
@@ -269,6 +278,10 @@ img.responsive {
 
 .text-center {
   text-align: center;
+}
+
+.text-right {
+  text-align: right;
 }
 
 .text-justify {
@@ -427,6 +440,10 @@ img.responsive {
 
 .swal2-html-container {
   text-align: left !important;
+}
+
+.swal2-title {
+  font-size: 30px !important;
 }
 
 @media only screen and (max-width: 768px) {

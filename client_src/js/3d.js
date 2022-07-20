@@ -130,17 +130,17 @@ module.exports.init = async (onLoaded) => {
 
     let activeMarker;
 
-// Marker Proto
+    // Marker Proto
     let markerProto = require('./marker-proto');
 
     window.earth = earth;
-//stopEarthRotation = true;
 
 
-    /*rocket.load().then(el => {
-        el.scene.scale.set(0.0001,0.0001,0.0001);
-        el.scene.position.y = -0.5;
-        el.scene.position.z = 0.6;
+
+/*    rocket.load(onLoaded).then(el => {
+        el.scene.scale.set(0.001,0.001,0.001);
+        el.scene.position.y = -3;
+        el.scene.position.z = 0.58;
         scene.add(el.scene); }).catch(e => console.log("ERR", e));*/
 
     let issScene;
@@ -337,8 +337,18 @@ module.exports.init = async (onLoaded) => {
 
 
     let renderAllow = true;
-    const setRendering = state => {
+    let rocketAnimate = false;
+
+    const setRendering = (state, _rocketAnimate = false) => {
         renderAllow = state;
+
+        if(_rocketAnimate !== rocketAnimate) {
+            camera.position.y = 0;
+            camera.position.z = 1.4;
+            removeMarker();
+        }
+
+        rocketAnimate = _rocketAnimate;
         console.log("Rendering allowed: ", renderAllow);
     };
 
@@ -409,6 +419,7 @@ module.exports.init = async (onLoaded) => {
 
 
         activeMarker && cityWaveAnimate(activeMarker);
+
 
         //stats.end();
         requestAnimationFrame(render);

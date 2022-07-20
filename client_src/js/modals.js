@@ -10,6 +10,7 @@ class Modal {
     static Alert(type, message, title = 'Final Frontier', options = {}) {
 
         Swal.fire({
+            title,
             icon: type,
             html: message,
             ...options
