@@ -13,7 +13,7 @@ RUN npm update @growishpay/service-utilities
 
 COPY . .
 
-RUN npm build
+RUN npm run build
 
 EXPOSE 8088
 EXPOSE 8089
