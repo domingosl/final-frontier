@@ -1,0 +1,15 @@
+version: '3'
+services:
+  final-frontier:
+    container_name: final-frontier
+    restart: unless-stopped
+    build:
+      context: .
+    ports:
+      - '8089:8089'
+      - '8088:8088'
+    networks:
+      - backend
+networks:
+  backend:
+    external: true
