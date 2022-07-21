@@ -54,7 +54,7 @@ new utilities.express.Service('countryCurrencyCouple')
             }
         });
 
-        console.log(response.data);
+        utilities.logger.debug("Response from Rapyd", response.data);
 
         return res.resolve(response.data.bank_account);
 

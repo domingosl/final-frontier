@@ -113,7 +113,8 @@ angular.module('app', ['ngAnimate']).controller('main', ['$scope', '$timeout', '
 
             Object.keys(response.data.data).forEach(key => {
                 if(key.toLowerCase() === 'country_iso' || key.toLowerCase() === 'country') return;
-                formatHtml += '<div class="row"><div class="col-xs-4 text-right"><strong>' + capitalizeWords(key.replace(/\_/g, " ")) + '</strong></div><div class="col-xs-6">' + response.data.data[key] + '</div></div>'
+                formatHtml += '<div class="row"><div class="col-xs-4 text-right"><strong>' + capitalizeWords(key.replace(/\_/g, " ")) + '</strong></div><div class="col-xs-6">' +
+                    '<input class="select" readonly value="' + response.data.data[key] + '" /></div></div>'
             });
             formatHtml += "</div><div class='text-center mt-30'><p>Thank you for choosing Final Frontier!</p></div>";
 

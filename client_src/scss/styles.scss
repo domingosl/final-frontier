@@ -446,6 +446,17 @@ img.responsive {
   font-size: 30px !important;
 }
 
+input.select {
+  background: transparent;
+  font-size: 20px;
+  border: none;
+  width: 100%;
+}
+
+input.select:focus {
+  outline-width: 0;
+}
+
 @media only screen and (max-width: 768px) {
   .nav {
     height: 100vh;
