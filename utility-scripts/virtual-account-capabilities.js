@@ -8,7 +8,7 @@ rapydApi.events.on('log', (level, message, payload = {}) => console.log("LOG", {
 const run = async () => {
 
     try {
-        const response = await rapydApi.Issuing.BankAccountsCapabilities.read(null, { country: 'sg' });
+        const response = await rapydApi.Issuing.BankAccountsCapabilities.read('us');
 
         console.log(response);
     }
