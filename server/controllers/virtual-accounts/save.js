@@ -46,7 +46,7 @@ new utilities.express.Service('countryCurrencyCouple')
             merchant_reference_id: merchantReferenceId,
             metadata: {
                 flight: flight.id,
-                paymentType: "down payment",
+                paymentType: "flightPayment",
                 travelerName: req.body.firstName,
                 travelerLastName: req.body.lastName,
                 travelerDocumentType: req.body.documentType,
