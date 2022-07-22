@@ -10,6 +10,7 @@ COPY package.json .
 RUN npm install --only=prod
 
 RUN npm update @growishpay/service-utilities
+RUN npm update rapyd-node-sdk
 
 COPY . .
 
