@@ -1,3 +1,4 @@
 module.exports = {
-    flights: require('./flights')
+    flights: require('./flights'),
+    countryCurrency: require('./country-currency')
 };

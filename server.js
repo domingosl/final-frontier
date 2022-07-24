@@ -7,7 +7,8 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-
+const path = require('path');
+const jwt = require('jsonwebtoken');
 
 global.api = {
     config: require('./server/config'),
@@ -34,11 +35,21 @@ clientApp.use(express.static('dist'));
 
 
 apiApp.get('/favicon.ico', (req, res) => res.status(204));
+clientApp.get('/favicon.ico', (req, res) => res.status(204));
 
+
+clientApp.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'dist/admin.html')));
 
 (async () => {
 
-    utilities.express.init(apiApp);
+    utilities.express.init(apiApp, (req, res, next)=>{
+        try {
+            jwt.verify(req.headers['x-auth-token'], process.env.JWT_SECRET);
+            next();
+        } catch (e) {
+            res.unauthorized();
+        }
+    });
 
     //Loads plugins, services, models and controllers
     const patterns = [

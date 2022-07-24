@@ -1,0 +1,287 @@
+@import "loader";
+@import "noty-theme";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
+
+body, html {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #1B2434;
+  padding: 0;
+  margin: 0;
+}
+
+.container{
+  margin: 0;
+  top: 50px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  background-color: #243044;
+  border-radius: 9px;
+  border-top: 10px solid #121823;
+  border-bottom: 10px solid #121823;
+  width: 400px;
+  height: 520px;
+  box-shadow: 1px 1px 108.8px 19.2px rgb(25,31,53);
+}
+
+.box h4 {
+  font-family: 'Montserrat', sans-serif;
+  color: #5c6bc0;
+  font-size: 30px;
+  margin-top:94px;;
+}
+
+.box h4 span {
+  color: #dfdeee;
+  font-size: 15px;
+  font-weight: lighter;
+}
+
+.box h5 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  color: #a1a4ad;
+  margin-top: -15px;
+}
+
+.box input[type = "text"],.box input[type = "password"] {
+  display: block;
+  margin: 20px auto;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  padding: 14px 10px;
+  width: 320px;
+  outline: none;
+  border-bottom: 2px solid #333A49;
+  color: white;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+  transition: all .2s ease-out;
+
+}
+
+input:focus, select:focus {
+  outline-width: 0;
+}
+
+::-webkit-input-placeholder {
+  color: #565f79;
+}
+
+
+a {
+  text-decoration: none;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #eee;
+  font-size: 15px;
+  line-height: 15px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+label input[type = "checkbox"] {
+  display: none; /* hide the default checkbox */
+}
+
+/* style the artificial checkbox */
+label span {
+  height: 13px;
+  width: 13px;
+  border: 2px solid #464d64;
+  border-radius: 2px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  float: left;
+  left: 7.5%;
+}
+
+.btn1 {
+  background: #5E5DF0;
+  box-shadow: #5E5DF0 0 10px 20px -10px;
+  color: #FFFFFF;
+  border-radius: 999px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Incompleeta, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: 335px;
+  word-break: break-word;
+  border: 0;
+  position: absolute;
+  top: 79%;
+  left: 8%;
+  transition: 0.3s;
+}
+
+.btn1:hover {
+  background: #5d33e6;
+}
+
+.rmb {
+  position: absolute;
+  margin-left: -24%;
+  margin-top: 0px;
+  color: #dfdeee;
+  font-size: 13px;
+}
+
+.forgetpass {
+  position: relative;
+  float: right;
+  right: 28px;
+}
+
+.dnthave{
+  position: absolute;
+  top: 92%;
+  left: 0;
+}
+
+[type=checkbox]:checked + span:before {/* <-- style its checked state */
+  font-family: FontAwesome;
+  font-size: 16px;
+  content: "\f00c";
+  position: absolute;
+  top: -4px;
+  color: #896cec;
+  left: -1px;
+  width: 13px;
+}
+
+.typcn {
+  position: absolute;
+  left: 339px;
+  top: 282px;
+  color: #3b476b;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.typcn.active {
+  color: #7f60eb;
+}
+
+.error {
+  background: #ff3333;
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  position: absolute;
+  top: 31%;
+  left: 7.2%;
+  color: white;
+  display: none;
+}
+
+.footer {
+  position: relative;
+  left: 0;
+  bottom: 0;
+  top: 605px;
+  width: 100%;
+  color: #78797d;
+  font-size: 14px;
+  text-align: center;
+}
+
+.footer .fa {
+  color: #7f5feb;;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.navbar {
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+}
+
+.dash {
+  margin-top: -20px;
+
+  a {
+    position: relative;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    bottom: unset;
+    right: unset;
+  }
+
+  .container-dash {
+    padding: 60px 80px;
+    color: white;
+  }
+
+  tr {
+    background: #06070b;
+  }
+
+  th, td {
+    border-bottom: 3px solid #1b2434;
+  }
+
+  .visible {
+    display: block !important;
+  }
+
+  .refund-modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+
+    .content {
+      background-color: #fefefe;
+      margin: 15% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; /* Could be more or less, depending on screen size */
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+  }
+
+}
+

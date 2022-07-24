@@ -1,9 +1,8 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-
 const loader = new GLTFLoader();
 
-module.exports.load = (onLoaded) => new Promise((resolve, reject) => {
+module.exports.load = (onLoaded) => new Promise(async (resolve, reject) => {
 
     loader.load(
         'assets/iss/scene.gltf',

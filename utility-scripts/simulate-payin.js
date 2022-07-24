@@ -9,9 +9,10 @@ const run = async () => {
 
     try {
         const response = await rapydApi.Issuing.SimulatedBankAccountTransfer.create({
-            amount: 1150,
-            currency: 'USD',
-            issued_bank_account: 'issuing_3045e84eb9f11238964d14b141262f45'
+            amount: 90000,
+            currency: 'MXN',
+            //issued_bank_account: 'issuing_3045e84eb9f11238964d14b141262f45'
+            issued_bank_account: 'issuing_6a624c9b3409b6bbe66a86de004412f9'
         });
 
         console.log(response);

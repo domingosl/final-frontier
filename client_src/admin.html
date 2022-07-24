@@ -1,10 +1,127 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
     <title>Final Frontier Admin panel</title>
-</head>
-<body>
 
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"
+    />
+
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+    <link rel="stylesheet" href="./scss/admin.scss">
+
+</head>
+<body ng-controller="main" ng-cloak>
+
+
+<div class="animated bounceInDown" ng-class="{'bounceInDown': loginFormData.show, 'bounceOutUp': !loginFormData.show}">
+    <div class="container">
+        <span class="error animated tada" id="msg"></span>
+        <form name="form1" class="box" ng-submit="submitLoginForm($event)">
+            <h4><img src="https://files.domingolupo.com/!LSfCjYNEzH/ff-logo.png" height="70"></h4>
+            <h5>Admin dashboard</h5>
+            <input type="text" name="email" placeholder="Email" ng-model="loginFormData.email" autocomplete="off">
+            <i class="typcn typcn-eye" id="eye"></i>
+            <input type="password" name="password" placeholder="Passsword" id="pwd" ng-model="loginFormData.password"
+                   autocomplete="off">
+
+            <a href="https://devpost.com/software/final-frontier-sfmi1z" class="forgetpass">Forget Password?</a>
+            <input type="submit" value="Sign in" class="btn1">
+        </form>
+        <a href="https://devpost.com/software/final-frontier-sfmi1z" target="_blank" class="dnthave">Check Devpost for
+            demo credentials</a>
+    </div>
+    <div class="footer">
+        <span>Build the Galaxy's Best Payment App for Space Tourism</span>
+    </div>
+</div>
+
+<div class="animated dash" ng-show="dashboardFormData.show"
+     ng-class="{'fadeIn': dashboardFormData.show, 'fadeUp': !dashboardFormData.show}">
+    <nav class="navbar fixed-top">
+
+        <div class="container-fluid">
+            <span class="navbar-brand">Final Frontier admin panel</span>
+            <span class="navbar-text" style="float: right"><a href="#" ng-click="logout()">{{dashboardFormData.user}}</a></span>
+        </div>
+
+    </nav>
+    <div class="container-dash">
+
+        <h1>Payments</h1>
+        <br/>
+        <br/>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">By</th>
+                <th scope="col">Lunch site</th>
+                <th scope="col">Lunch date</th>
+                <th scope="col">Flight Cost</th>
+                <th scope="col">Actions</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="payment in dashboardFormData.payments track by $index">
+                <th scope="row">{{payment.createdAt}}</th>
+                <td>{{payment.amount | currency: payment.currency}}</td>
+                <td>{{payment.status}}</td>
+                <td>{{payment.travelerName + " " + payment.travelerLastName}}</td>
+                <td>{{payment.flight.lunchSite.name}}</td>
+                <td>{{payment.flight.departure}}</td>
+                <td>{{payment.flight.cost | currency: "USD"}}</td>
+                <td class="text-center">
+                    <a href="#">Details</a>
+                    <a href="#" ng-click="openRefundModal(payment)">Refund</a>
+                </td>
+
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="refund-modal" ng-class="{'visible': refundFormData.show }">
+        <div class="content">
+            <span class="close" ng-click="closeRefundModal()">&times;</span>
+            <h1>Refund</h1>
+            <p>You are about to refund a transaction of
+                <strong>{{refundFormData.amount | currency: refundFormData.currency }}</strong> to
+                <strong>{{refundFormData.country}}</strong>.</p>
+            <p>Please select one of the available bank wire methods for this region:</p>
+
+            <select ng-model="refundFormData.selectedBeneficiaryBank" ng-change="bankwireMethodChange()">
+                <option
+                        ng-repeat="beneficiaryBank in refundFormData.beneficiaryBanks"
+                        ng-value="beneficiaryBank.payout_method_type">{{beneficiaryBank.name}}</option>
+            </select>
+
+            <form ng-submit="submitRefundForm($event)">
+                <input type="text"
+                       ng-repeat="requiredField in refundFormData.beneficiaryRequiredFields"
+                       id="{{refundFormData.beneficiaryRequiredFields[$index].id}}"
+                       placeholder="{{refundFormData.beneficiaryRequiredFields[$index].placeholder}}" />
+
+                <input type="submit" value="Make Refund" />
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="module" src="js/admin.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"
+        integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="../node_modules/@sweetalert2/theme-dark/dark.css">
+<link rel="stylesheet" href="../node_modules/noty/lib/noty.css">
+<link rel="stylesheet" href="../node_modules/noty/lib/themes/sunset.css">
 </body>
 </html>

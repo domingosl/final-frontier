@@ -2,19 +2,15 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import gsap from 'gsap';
 import { rippleProto, cityWaveAnimate } from "./riple";
-import * as rocket from './rocket';
 import * as iss from './iss';
-import Stats from 'stats.js'
 
-/*const stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );*/
+
 
 module.exports.init = async (onLoaded) => {
 
     let stopEarthRotation = false;
 
-// Scene, Camera, Renderer
+    // Scene, Camera, Renderer
     let renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById("bg"),
         alpha: true,
@@ -28,15 +24,15 @@ module.exports.init = async (onLoaded) => {
 
     const orbitControls = new OrbitControls(camera, renderer.domElement)
 
-// Lights
+    // Lights
     let spotLight = new THREE.SpotLight(0xffffff, 1, 0, 10, 2);
     const light = new THREE.AmbientLight( 0x777777 ); // soft white light
     scene.add( light );
 
-// Texture Loader
+    // Texture Loader
     let textureLoader = new THREE.TextureLoader();
 
-// Planet Proto
+    // Planet Proto
     let planetProto = require('./planet-prototype')(camera);
 
     let createPlanet = function (options) {
@@ -136,13 +132,6 @@ module.exports.init = async (onLoaded) => {
     window.earth = earth;
 
 
-
-/*    rocket.load(onLoaded).then(el => {
-        el.scene.scale.set(0.001,0.001,0.001);
-        el.scene.position.y = -3;
-        el.scene.position.z = 0.58;
-        scene.add(el.scene); }).catch(e => console.log("ERR", e));*/
-
     let issScene;
     iss.load(onLoaded).then(el => {
 
@@ -160,7 +149,8 @@ module.exports.init = async (onLoaded) => {
 
 
     let cameraAnimating = false;
-// Place Marker
+
+    // Place Marker
     const placeMarker = function (options) {
 
         removeMarker();
@@ -245,14 +235,14 @@ module.exports.init = async (onLoaded) => {
 
 
 
-// Galaxy
+    // Galaxy
     let galaxyGeometry = new THREE.SphereGeometry(2, 32, 32);
     let galaxyMaterial = new THREE.MeshBasicMaterial({
         side: THREE.BackSide
     });
     let galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
 
-// Load Galaxy Textures
+    // Load Galaxy Textures
     textureLoader.crossOrigin = true;
     textureLoader.load(
         '/img/starfield.png',
@@ -352,10 +342,6 @@ module.exports.init = async (onLoaded) => {
         console.log("Rendering allowed: ", renderAllow);
     };
 
-// Scene, Camera, Renderer Configuration
-//renderer.setSize(window.innerWidth, window.innerHeight);
-
-
     camera.position.set(1, 1, 1);
     orbitControls.enabled = false;
 
@@ -363,10 +349,10 @@ module.exports.init = async (onLoaded) => {
     scene.add(spotLight);
     scene.add(earth);
 
-// Light Configurations
+    // Light Configurations
     spotLight.position.set(2, 0, 1);
 
-// Mesh Configurations
+    // Mesh Configurations
     earth.receiveShadow = true;
     earth.castShadow = true;
     earth.getObjectByName('surface').geometry.center();
@@ -377,15 +363,13 @@ module.exports.init = async (onLoaded) => {
         renderer.setSize(window.innerWidth, window.innerHeight);
     };
 
-// On window resize, adjust camera aspect ratio and renderer size
+    // On window resize, adjust camera aspect ratio and renderer size
     window.addEventListener('resize', resize);
 
     camera.position.y = 0;
     camera.position.x = 2 * Math.sin(cameraRotation);
     camera.position.z = 2 * Math.cos(cameraRotation);
     camera.aspect = window.innerWidth / window.innerHeight;
-
-    console.log(camera.position, earth.position, camera.aspect, window.innerWidth, window.innerHeight);
 
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -402,7 +386,6 @@ module.exports.init = async (onLoaded) => {
         if(!renderAllow)
             return requestAnimationFrame(render);
 
-        //stats.begin();
 
         if(!stopEarthRotation)
             surface.rotation.y += 1 / 32 * 0.01;
@@ -421,7 +404,6 @@ module.exports.init = async (onLoaded) => {
         activeMarker && cityWaveAnimate(activeMarker);
 
 
-        //stats.end();
         requestAnimationFrame(render);
         renderer.render(scene, camera);
     };

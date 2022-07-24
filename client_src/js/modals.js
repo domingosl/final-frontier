@@ -23,7 +23,7 @@ class Modal {
 
         new Noty({
             type: type,
-            layout: 'bottomRight',
+            layout: 'topRight',
             text: message,
             timeout,
             theme: 'solarized'
