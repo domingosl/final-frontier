@@ -27,7 +27,7 @@ new utilities.express.Service('rapydWebhookController')
                 bankAccount: vaDetail.bank_account,
                 amount: req.body.data.amount,
                 currency: req.body.data.currency,
-                createdAt: req.body.data.created_at,
+                executionDate: req.body.created_at,
                 flight: {...flights.find(f => f.id === vaDetail.metadata.flight), description: undefined},
                 type: vaDetail.metadata.paymentType,
                 travelerName: vaDetail.metadata.travelerName,

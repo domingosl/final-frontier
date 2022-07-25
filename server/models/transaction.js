@@ -18,7 +18,7 @@ const TransactionsSchema = new mongoose.Schema(
             maxLength: 3,
             required: true
         },
-        createdAt: {
+        executionDate: {
             type: Number,
             required: true
         },
