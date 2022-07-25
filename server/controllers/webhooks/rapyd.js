@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+const Transactions = mongoose.model('Transaction');
 const rapydApi = utilities.dependencyLocator.get('rapydApi');
 
 const tagLabel = 'rapydHooks';
@@ -19,7 +21,7 @@ new utilities.express.Service('rapydWebhookController')
 
         const vaDetail = (await rapydApi.Issuing.BankAccounts.read(req.body.data.issued_account_id)).data;
 
-        const transaction = {
+        const transaction = new Transactions({
             rapydId: req.body.data.issuing_transaction_id,
             bankAccount: vaDetail.bank_account,
             amount: req.body.data.amount,
@@ -31,11 +33,11 @@ new utilities.express.Service('rapydWebhookController')
             travelerLastName: vaDetail.metadata.travelerLastName,
             travelerDocumentType: vaDetail.metadata.travelerDocumentType,
             travelerDocumentNumber: vaDetail.metadata.travelerDocumentNumber
-        };
+        });
 
-        console.log(">>>", transaction);
+        await transaction.save();
 
-        //utilities.logger.debug("New transaction stored", { tagLabel, transaction });
+        utilities.logger.debug("New transaction stored", { tagLabel, transaction });
 
 
     });
