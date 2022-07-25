@@ -1,3 +1,5 @@
+const rapydApi = utilities.dependencyLocator.get('rapydApi');
+
 const tagLabel = 'rapydHooks';
 
 const flights = api.config.flights;
