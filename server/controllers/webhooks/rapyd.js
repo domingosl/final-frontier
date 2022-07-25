@@ -33,7 +33,9 @@ new utilities.express.Service('rapydWebhookController')
             travelerDocumentNumber: vaDetail.metadata.travelerDocumentNumber
         };
 
-        utilities.logger.debug("New transaction stored", { tagLabel, transaction });
+        console.log(">>>", transaction);
+
+        //utilities.logger.debug("New transaction stored", { tagLabel, transaction });
 
 
     });
