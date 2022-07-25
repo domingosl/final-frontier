@@ -1,20 +1,14 @@
-const controller = async (req, res)=>{
-
-    utilities.logger.debug("New Rapyd hook", { tagLabel, body: req.body });
-
-    res.resolve();
-
-
-};
+const tagLabel = 'rapydHooks';
 
 new utilities.express.Service('rapydWebhookController')
     .isPost()
     .isPublic()
     .respondsAt('/webhooks/rapyd')
-    .controller(controller);
+    .controller(async (req, res)=>{
 
-new utilities.express.Service('rapydWebhookController')
-    .isGet()
-    .isPublic()
-    .respondsAt('/webhooks/rapyd')
-    .controller(controller);
+        utilities.logger.debug("New Rapyd hook", { tagLabel, body: req.body });
+
+        res.resolve();
+
+
+    });
