@@ -24,6 +24,8 @@ new utilities.express.Service('paymentList')
 
             for(const transaction of vaDetail.transactions) {
 
+                console.log(">>>", transaction);
+
                 response.push({
                     id: transaction.id,
                     bankAccount: vaDetail.bank_account,

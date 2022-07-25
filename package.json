@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
+    "mongoose": "^6.4.6",
     "morgan": "^1.10.0",
     "noty": "^3.2.0-beta-deprecated",
     "rapyd-node-sdk": "git+https://github.com/domingosl/rapyd-node-sdk.git",

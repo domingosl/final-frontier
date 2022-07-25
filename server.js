@@ -9,6 +9,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 global.api = {
     config: require('./server/config'),
@@ -98,6 +99,13 @@ clientApp.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'dist/ad
 
         if (process.env.ENABLE_RESTART_NOTIFICATION === 'true')
             utilities.notifier.send('API server running!', {env: process.env.NODE_ENV}, 'low');
+
+        try {
+            await mongoose.connect('mongodb://' + process.env.MONGODB_USER + ':' + process.env.MONGODB_PASSWORD + '@mongodb');
+            utilities.logger.info('Connected to DB!', {tagLabel});
+        } catch (error) {
+            utilities.logger.warn('Running with no DB!', {tagLabel, error});
+        }
 
     });
 
