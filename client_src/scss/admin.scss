@@ -260,10 +260,10 @@ label span {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 
     .content {
-      background-color: #fefefe;
+      background-color: #1b2434;
+      color: #FFFFFF;
       margin: 15% auto; /* 15% from the top and centered */
       padding: 20px;
-      border: 1px solid #888;
       width: 80%; /* Could be more or less, depending on screen size */
     }
 
@@ -281,6 +281,53 @@ label span {
       cursor: pointer;
     }
 
+  }
+
+  .beneficiary-bank-container {
+
+    margin: 30px auto;
+    width: 300px;
+    padding: 30px 15px;
+    background-color: #06070b;
+    color: white;
+    border-radius: 15px;
+
+
+
+  }
+
+  .beneficiary-fields-container {
+    margin: 15px auto;
+    padding: 30px 15px;
+  }
+
+  input, select {
+    font-size: 20px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid #333A49;
+    color: white;
+    -webkit-appearance: menulist-button;
+    outline:0;
+  }
+
+  select {
+    margin-bottom: 5px;
+  }
+
+  input[type=text] {
+    margin-bottom: 20px;
+  }
+
+  select option {
+    background: rgb(0, 0, 0);
+    color: #fff;
+    border: none;
+  }
+
+  select:focus {
+    outline-width: 0;
   }
 
 }

@@ -36,11 +36,11 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
         $timeout(() => {
 
             $scope.dashboardFormData.payments = response.data.data
-                .map(el => ({...el, createdAt: moment(el.createdAt, 'X').format('DD/MM/YYYY HH:MM')}));
+                .map(el => ({...el, executionDate: moment(el.executionDate, 'X').format('DD/MM/YYYY HH:MM')}));
             $scope.dashboardFormData.show = true;
             loader.hide();
 
-        }, 0);
+        }, 500);
 
 
     };
@@ -131,6 +131,7 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
                 return {
                     id: 'refundFormData_beneficiary_' + el.name,
                     name: el.name,
+                    regex: el.regex,
                     model: 'refundFormData.beneficiary.' + el.name,
                     placeholder: el.name.replace(/\_/g, " ") };
             });
@@ -140,15 +141,33 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
 
     };
 
-    $scope.submitRefundForm = event => {
+    $scope.submitRefundForm = async event => {
         event.preventDefault();
+
+        loader.show();
+        const beneficiaryPayload = {};
+
         for(htmlEl of $scope.refundFormData.beneficiaryRequiredFields) {
             console.log(htmlEl.id, document.getElementById(htmlEl.id)?.value);
+            //TODO: VALIDATION
+            beneficiaryPayload[htmlEl.id.replace('refundFormData_beneficiary_', '')] = document.getElementById(htmlEl.id)?.value;
         }
+
+        const response = await axios.post(process.env.API_SERVER + '/refunds', {
+            amount: $scope.refundFormData.amount,
+            payoutMethodType: $scope.refundFormData.selectedBeneficiaryBank,
+            senderCurrency: $scope.refundFormData.currency,
+            beneficiaryCountry: $scope.refundFormData.isoCountry,
+            payoutCurrency: $scope.refundFormData.currency,
+            beneficiary: beneficiaryPayload,
+            description: 'Refund from admin dashboard'
+        }, {headers: {'x-auth-token': token}});
     }
 
     $scope.closeRefundModal = () => {
         $scope.refundFormData.show = false;
+        $scope.refundFormData.beneficiaryRequiredFields = [];
+        $scope.refundFormData.selectedBeneficiaryBank = null;
     };
 
 

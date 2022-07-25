@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const countries = require("i18n-iso-countries");
 const Transactions = mongoose.model('Transaction');
 const rapydApi = utilities.dependencyLocator.get('rapydApi');
 
@@ -22,8 +23,12 @@ new utilities.express.Service('rapydWebhookController')
 
             const vaDetail = (await rapydApi.Issuing.BankAccounts.read(req.body.data.issued_account_id)).data;
 
+            if(!vaDetail.bank_account.country && vaDetail.bank_account.country_iso)
+                vaDetail.bank_account.country = countries.getName(vaDetail.bank_account.country_iso.toUpperCase(), 'en');
+
             const transaction = new Transactions({
                 rapydId: req.body.data.issuing_transaction_id,
+                status: 'accepted',
                 bankAccount: vaDetail.bank_account,
                 amount: req.body.data.amount,
                 currency: req.body.data.currency,

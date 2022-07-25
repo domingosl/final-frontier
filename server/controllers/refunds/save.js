@@ -7,6 +7,7 @@ new utilities.express.Service('createRefundController')
 
         const payload = {
             ewallet: process.env.COMPANY_WALLET_ID,
+            category: 'bank',
             payout_amount: req.body.amount,
             payout_method_type: req.body.payoutMethodType,
             sender_currency: req.body.senderCurrency,
@@ -15,7 +16,7 @@ new utilities.express.Service('createRefundController')
             payout_currency: req.body.payoutCurrency,
             sender_entity_type: 'company',
             beneficiary_entity_type: 'individual',
-            beneficiary: req.body.beneficiary,
+            beneficiary: {...req.body.beneficiary, country: req.body.beneficiaryCountry},
             sender: {
                 company_name: process.env.COMPANY_NAME,
                 identification_type: process.env.COMPANY_IDENTIFICATION_TYPE,
@@ -29,8 +30,10 @@ new utilities.express.Service('createRefundController')
             description: req.body.description
         };
 
+        console.log(payload);
+
         const response = await rapydApi.Payouts.Beneficiaries.create(payload);
 
-        console.log(response.data);
+        res.resolve(response.data);
 
     });

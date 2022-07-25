@@ -8,6 +8,11 @@ const TransactionsSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        status: {
+            type: String,
+            enum: ['created', 'accepted', 'refunded'],
+            default: 'created'
+        },
         bankAccount: {},
         amount: {
             type: Number,

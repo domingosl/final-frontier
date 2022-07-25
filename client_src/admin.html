@@ -70,7 +70,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="payment in dashboardFormData.payments track by $index">
-                <th scope="row">{{payment.createdAt}}</th>
+                <th scope="row">{{payment.executionDate}}</th>
                 <td>{{payment.amount | currency: payment.currency}}</td>
                 <td>{{payment.status}}</td>
                 <td>{{payment.travelerName + " " + payment.travelerLastName}}</td>
@@ -97,20 +97,33 @@
                 <strong>{{refundFormData.country}}</strong>.</p>
             <p>Please select one of the available bank wire methods for this region:</p>
 
-            <select ng-model="refundFormData.selectedBeneficiaryBank" ng-change="bankwireMethodChange()">
-                <option
-                        ng-repeat="beneficiaryBank in refundFormData.beneficiaryBanks"
-                        ng-value="beneficiaryBank.payout_method_type">{{beneficiaryBank.name}}</option>
-            </select>
+            <div class="beneficiary-bank-container">
 
-            <form ng-submit="submitRefundForm($event)">
-                <input type="text"
-                       ng-repeat="requiredField in refundFormData.beneficiaryRequiredFields"
-                       id="{{refundFormData.beneficiaryRequiredFields[$index].id}}"
-                       placeholder="{{refundFormData.beneficiaryRequiredFields[$index].placeholder}}" />
+                <select ng-model="refundFormData.selectedBeneficiaryBank" ng-change="bankwireMethodChange()">
+                    <option
+                            ng-repeat="beneficiaryBank in refundFormData.beneficiaryBanks"
+                            ng-value="beneficiaryBank.payout_method_type">{{beneficiaryBank.name}}</option>
+                </select>
 
-                <input type="submit" value="Make Refund" />
-            </form>
+            </div>
+
+            <div class="beneficiary-fields-container" ng-if="refundFormData.beneficiaryRequiredFields.length > 0">
+                <p>Beneficiary required fields:</p>
+                <form ng-submit="submitRefundForm($event)">
+                    <input type="text"
+                           ng-repeat="requiredField in refundFormData.beneficiaryRequiredFields"
+                           id="{{refundFormData.beneficiaryRequiredFields[$index].id}}"
+                           placeholder="{{refundFormData.beneficiaryRequiredFields[$index].placeholder}}"
+                           value="{{refundFormData.beneficiaryRequiredFields[$index].regex.substring(0,1) === '^' ? '' : refundFormData.beneficiaryRequiredFields[$index].regex}}"
+                           ng-hide="refundFormData.beneficiaryRequiredFields[$index].regex.substring(0,1) !== '^'"
+                    />
+
+                    <br />
+                    <br />
+                    <br />
+                    <input type="submit" value="Make Refund" />
+                </form>
+            </div>
         </div>
     </div>
 
