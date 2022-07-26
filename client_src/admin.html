@@ -53,7 +53,7 @@
         <h1>Payments</h1>
         <br/>
         <br/>
-
+        <input type="search" ng-model="searchQuery.travelerFullName" placeholder="Search by Traveler"/><br /><br />
         <table class="table">
             <thead>
             <tr>
@@ -69,7 +69,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="payment in dashboardFormData.payments track by $index">
+            <tr ng-repeat="payment in dashboardFormData.payments | filter:searchQuery">
                 <th scope="row">{{payment.executionDate}}</th>
                 <td>{{payment.amount | currency: payment.currency}}</td>
                 <td ng-class="{'hard-text': payment.status === 'refunded', 'yay-text': payment.status === 'accepted'}">{{payment.status}}</td>

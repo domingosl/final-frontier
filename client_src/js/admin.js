@@ -10,6 +10,7 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
     $scope.loginFormData = {show: false};
     $scope.dashboardFormData = {show: false};
     $scope.refundFormData = {show: false};
+    $scope.searchQuery = {};
 
     let token = localStorage.getItem('token');
 
@@ -36,9 +37,14 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
         $timeout(() => {
 
             $scope.dashboardFormData.payments = response.data.data
-                .map(el => ({...el, executionDate: moment(el.executionDate, 'X').format('DD/MM/YYYY HH:MM')}));
+                .map(el => ({
+                    ...el,
+                    executionDate: moment(el.executionDate, 'X').format('DD/MM/YYYY HH:MM'),
+                    travelerFullName: (el.travelerName + " " + el.travelerLastName).toLowerCase()
+                }));
             $scope.dashboardFormData.show = true;
             loader.hide();
+            console.log($scope.dashboardFormData.payments);
 
         }, 500);
 
@@ -87,7 +93,6 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
     $scope.openRefundModal = async (payment) => {
         loader.show();
 
-        console.log(">>>", payment);
         let response = await axios.get(
             process.env.API_SERVER + '/refunds/rpc-available-banks?country=' +
             payment.bankAccount.country_iso + '&currency=' +
@@ -168,12 +173,14 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
                 description: 'Refund from admin dashboard'
             }, {headers: {'x-auth-token': token}});
 
+            loader.hide();
+
             Modals.Alert("success", "Refund transaction approved", "REFUNDED!", {
                 allowOutsideClick: false,
                 showConfirmButton: false
             });
 
-            $timeout(location.reload, 3000);
+            $timeout(()=>location.reload(), 3000);
 
 
         }
