@@ -1,22 +1,36 @@
+const mongoose = require('mongoose');
+const Transactions = mongoose.model('Transaction');
 const rapydApi = utilities.dependencyLocator.get('rapydApi');
 
-new utilities.express.Service('createRefundController')
+const tagLabel = 'createRefundController';
+
+new utilities.express.Service(tagLabel)
     .isPost()
     .respondsAt('/refunds')
     .controller(async (req, res) => {
 
+
+        const transaction = await Transactions.findOne({ _id: req.body.transactionId });
+
+        if(transaction.status !== 'accepted')
+            return res.forbidden('The transaction cannot be refunded');
+
         const payload = {
             ewallet: process.env.COMPANY_WALLET_ID,
             category: 'bank',
-            payout_amount: req.body.amount,
+
+            payout_amount: transaction.amount,
             payout_method_type: req.body.payoutMethodType,
-            sender_currency: req.body.senderCurrency,
+            payout_currency: transaction.currency,
+
+            sender_currency: transaction.currency,
             sender_country: process.env.COMPANY_ISO_COUNTRY,
-            beneficiary_country: req.body.beneficiaryCountry,
-            payout_currency: req.body.payoutCurrency,
             sender_entity_type: 'company',
+
             beneficiary_entity_type: 'individual',
-            beneficiary: {...req.body.beneficiary, country: req.body.beneficiaryCountry},
+            beneficiary_country: transaction.bankAccount.country_iso,
+
+            beneficiary: {...req.body.beneficiary },
             sender: {
                 company_name: process.env.COMPANY_NAME,
                 identification_type: process.env.COMPANY_IDENTIFICATION_TYPE,
@@ -25,14 +39,21 @@ new utilities.express.Service('createRefundController')
                 occupation: process.env.COMPANY_OCCUPATION,
                 source_of_income: "business",
                 address: process.env.COMPANY_ADDRESS,
-                beneficiary_relationship: "client"
+                city: process.env.COMPANY_CITY,
+                state: process.env.COMPANY_STATE,
+                postcode: process.env.COMPANY_POSTCODE,
+                description: process.env.COMPANY_DESCRIPTION,
+                beneficiary_relationship: "customer"
             },
             description: req.body.description
         };
 
-        console.log(payload);
+        utilities.logger.debug("Payload", {payload, tagLabel});
 
-        const response = await rapydApi.Payouts.Beneficiaries.create(payload);
+        const response = await rapydApi.Payouts.Bankwire.create(payload);
+
+        transaction.status = 'refunded';
+        await transaction.save();
 
         res.resolve(response.data);
 

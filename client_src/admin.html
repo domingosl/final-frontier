@@ -72,14 +72,14 @@
             <tr ng-repeat="payment in dashboardFormData.payments track by $index">
                 <th scope="row">{{payment.executionDate}}</th>
                 <td>{{payment.amount | currency: payment.currency}}</td>
-                <td>{{payment.status}}</td>
+                <td ng-class="{'hard-text': payment.status === 'refunded', 'yay-text': payment.status === 'accepted'}">{{payment.status}}</td>
                 <td>{{payment.travelerName + " " + payment.travelerLastName}}</td>
                 <td>{{payment.flight.lunchSite.name}}</td>
                 <td>{{payment.flight.departure}}</td>
                 <td>{{payment.flight.cost | currency: "USD"}}</td>
                 <td class="text-center">
-                    <a href="#">Details</a>
-                    <a href="#" ng-click="openRefundModal(payment)">Refund</a>
+                    <a ng-if="payment.status==='accepted'" href="#" ng-click="openRefundModal(payment)">Refund</a>
+                    <span ng-if="payment.status!=='accepted'">-</span>
                 </td>
 
             </tr>
@@ -93,13 +93,14 @@
             <span class="close" ng-click="closeRefundModal()">&times;</span>
             <h1>Refund</h1>
             <p>You are about to refund a transaction of
-                <strong>{{refundFormData.amount | currency: refundFormData.currency }}</strong> to
-                <strong>{{refundFormData.country}}</strong>.</p>
+                <strong>{{refundFormData.payment.amount | currency: refundFormData.payment.currency }}</strong> to
+                <strong>{{refundFormData.payment.country}}</strong>.</p>
             <p>Please select one of the available bank wire methods for this region:</p>
 
             <div class="beneficiary-bank-container">
 
                 <select ng-model="refundFormData.selectedBeneficiaryBank" ng-change="bankwireMethodChange()">
+                    <option value="" disabled selected>Select your method</option>
                     <option
                             ng-repeat="beneficiaryBank in refundFormData.beneficiaryBanks"
                             ng-value="beneficiaryBank.payout_method_type">{{beneficiaryBank.name}}</option>

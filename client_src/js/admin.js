@@ -87,6 +87,7 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
     $scope.openRefundModal = async (payment) => {
         loader.show();
 
+        console.log(">>>", payment);
         let response = await axios.get(
             process.env.API_SERVER + '/refunds/rpc-available-banks?country=' +
             payment.bankAccount.country_iso + '&currency=' +
@@ -95,10 +96,7 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
 
 
         $timeout(()=>{
-            $scope.refundFormData.amount = payment.amount;
-            $scope.refundFormData.currency = payment.currency;
-            $scope.refundFormData.country = payment.bankAccount.country;
-            $scope.refundFormData.isoCountry = payment.bankAccount.country_iso;
+            $scope.refundFormData.payment = payment;
             $scope.refundFormData.beneficiaryBanks = response.data.data;
             $scope.refundFormData.show = true;
 
@@ -118,9 +116,9 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
 
         let response = await axios.get(
             process.env.API_SERVER + '/refunds/rpc-required-fields?country=' +
-            $scope.refundFormData.isoCountry + '&currency=' +
-            $scope.refundFormData.currency + '&amount=' +
-            $scope.refundFormData.amount + '&payMethodType=' +
+            $scope.refundFormData.payment.bankAccount.country_iso + '&currency=' +
+            $scope.refundFormData.payment.currency + '&amount=' +
+            $scope.refundFormData.payment.amount + '&payMethodType=' +
             $scope.refundFormData.selectedBeneficiaryBank, {headers: {'x-auth-token': token}});
 
 
@@ -146,22 +144,45 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
 
         loader.show();
         const beneficiaryPayload = {};
-
+        let valid = true;
         for(htmlEl of $scope.refundFormData.beneficiaryRequiredFields) {
-            console.log(htmlEl.id, document.getElementById(htmlEl.id)?.value);
-            //TODO: VALIDATION
-            beneficiaryPayload[htmlEl.id.replace('refundFormData_beneficiary_', '')] = document.getElementById(htmlEl.id)?.value;
+
+            const el = document.getElementById(htmlEl.id);
+
+            if(!(new RegExp(htmlEl.regex).test(el.value))) {
+                Modals.Toast('error', "The <strong>" + htmlEl.placeholder + "</strong> is not valid", 5000);
+                valid = false;
+                console.log(htmlEl.placeholder, htmlEl.regex);
+            }
+
+            beneficiaryPayload[htmlEl.id.replace('refundFormData_beneficiary_', '')] = el.value;
         }
 
-        const response = await axios.post(process.env.API_SERVER + '/refunds', {
-            amount: $scope.refundFormData.amount,
-            payoutMethodType: $scope.refundFormData.selectedBeneficiaryBank,
-            senderCurrency: $scope.refundFormData.currency,
-            beneficiaryCountry: $scope.refundFormData.isoCountry,
-            payoutCurrency: $scope.refundFormData.currency,
-            beneficiary: beneficiaryPayload,
-            description: 'Refund from admin dashboard'
-        }, {headers: {'x-auth-token': token}});
+        if(!valid) return loader.hide();
+
+        try {
+            await axios.post(process.env.API_SERVER + '/refunds', {
+                transactionId: $scope.refundFormData.payment._id,
+                payoutMethodType: $scope.refundFormData.selectedBeneficiaryBank,
+                beneficiary: beneficiaryPayload,
+                description: 'Refund from admin dashboard'
+            }, {headers: {'x-auth-token': token}});
+
+            Modals.Alert("success", "Refund transaction approved", "REFUNDED!", {
+                allowOutsideClick: false,
+                showConfirmButton: false
+            });
+
+            $timeout(location.reload, 3000);
+
+
+        }
+        catch (e) {
+            loader.hide();
+            Modals.Toast("error", "Something went wrong, please try again later.", 5000);
+        }
+
+
     }
 
     $scope.closeRefundModal = () => {
