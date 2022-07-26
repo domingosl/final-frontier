@@ -150,7 +150,7 @@ angular.module('app', []).controller('main', ['$scope', '$timeout', '$interval',
         loader.show();
         const beneficiaryPayload = {};
         let valid = true;
-        for(htmlEl of $scope.refundFormData.beneficiaryRequiredFields) {
+        for(const htmlEl of $scope.refundFormData.beneficiaryRequiredFields) {
 
             const el = document.getElementById(htmlEl.id);
 
