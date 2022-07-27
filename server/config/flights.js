@@ -32,7 +32,16 @@ module.exports = [
             position: {latitude: 34.66486285, longitude: -120.60124}
         },
         landingPosition: { latitude: 37.77814, longitude: -128.94438 },
-        description: "Foo bar",
+        description: "<h1><strong>How it works</strong></h1><p>This is a sub-orbital spaceflight, which means the spacecraft reaches outer space, but its trajectory " +
+            "intersects the atmosphere or surface of the gravitating body from which it was launched, so that it will not " +
+            "complete one orbital revolution or reach escape velocity.</p><br />" +
+            "<br />" +
+            "<h1><strong>The flight to space</strong></h1><p>The spacecraft will take 3 minutes and 20 seconds to reach space and it will shut off its engines well before reaching " +
+            "maximum altitude, and then coast up to its highest point. During a few minutes, from the point when the engines are shut off to the point where the atmosphere " +
+            "begins to slow down the downward acceleration, the passengers will experience weightlessness.</p><br /><br />" +
+            "<h1><strong>The flight back home</strong></h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat massa eget dignissim gravida. " +
+            "Pellentesque quam eros, egestas et fermentum quis, sollicitudin sed erat. Phasellus pulvinar, erat id tincidunt fermentum, orci ante tempus nunc, ac feugiat " +
+            "orci arcu sit amet nisl. In vel facilisis turpis, quis consequat quam. </p>",
         departure: "05/12/2025 16:00 GMT",
         duration: "3 Hours",
         type: "Sub-Orbital",
@@ -48,7 +57,16 @@ module.exports = [
             position: {latitude: 8.5314, longitude: 76.8690}
         },
         landingPosition: { latitude: -9.050980, longitude: 47.707587982 },
-        description: "Foo bar",
+        description: "<h1><strong>How it works</strong></h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat massa eget dignissim gravida. " +
+            "Pellentesque quam eros, egestas et fermentum quis, sollicitudin sed erat. Phasellus pulvinar, erat id tincidunt fermentum, orci ante tempus nunc, ac feugiat " +
+            "orci arcu sit amet nisl. In vel facilisis turpis, quis consequat quam. </p><br />" +
+            "<br />" +
+            "<h1><strong>The flight to space</strong></h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat massa eget dignissim gravida. " +
+            "Pellentesque quam eros, egestas et fermentum quis, sollicitudin sed erat. Phasellus pulvinar, erat id tincidunt fermentum, orci ante tempus nunc, ac feugiat " +
+            "orci arcu sit amet nisl. In vel facilisis turpis, quis consequat quam. </p><br /><br />" +
+            "<h1><strong>The flight back home</strong></h1><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus consequat massa eget dignissim gravida. " +
+            "Pellentesque quam eros, egestas et fermentum quis, sollicitudin sed erat. Phasellus pulvinar, erat id tincidunt fermentum, orci ante tempus nunc, ac feugiat " +
+            "orci arcu sit amet nisl. In vel facilisis turpis, quis consequat quam. </p>",
         departure: "01/14/2027 11:00 GMT",
         duration: "2.1 Hours",
         type: "Orbital",

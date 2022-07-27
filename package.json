@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && cp -R ./img ./dist  && parcel ./client_src/index.html ./client_src/admin.html",
     "build": "rm -rf ./dist && mkdir ./dist && cp -R ./assets ./dist && cp -R ./img ./dist  && parcel build ./client_src/index.html ./client_src/admin.html",
-    "start": "node server.js"
+    "server": "node server.js"
   },
   "keywords": [],
   "author": "Domingo Lupo",
